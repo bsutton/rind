@@ -8,4 +8,3 @@ does not block it.
 ## Required
 
 - [Fastest at every algorithm](/quest/m2/speed/README.md) - every algorithm on every path as fast as any permissive source
-- [Wipe only what a value owns, everywhere](/quest/m2/wipe-audit.md) - no backend zeroes per-call temporaries; owned secrets still wiped
