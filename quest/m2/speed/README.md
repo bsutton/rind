@@ -47,7 +47,6 @@ settled; don't ask them again. The chosen option is marked ✅.
 
 ## Required
 
-- [armv7 P-256 as fast as the fastest source](/quest/m2/speed/armv7-p256.md) - signing 2.63x, ES256 2.04x today
 - [AES-GCM key setup as fast as the fastest source](/quest/m2/speed/aes-gcm-key-setup.md) - 1.13-1.66x today
 - [ML-KEM-768 encapsulation as fast as the fastest source](/quest/m2/speed/mlkem-encaps.md) - armv7 1.05x and aarch64 1.04x today
 - [x86_64 RSA with AVX-512 IFMA](/quest/m2/speed/x86-rsa-ifma.md) - aws-lc's AVX-512 RSA is up to 3.56x faster
