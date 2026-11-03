@@ -49,4 +49,3 @@ settled; don't ask them again. The chosen option is marked ✅.
 
 - [ML-KEM-768 encapsulation as fast as the fastest source](/quest/m2/speed/mlkem-encaps.md) - armv7 1.05x and aarch64 1.04x today
 - [armv7 P-384 multiply without carry-flag spills](/quest/m2/speed/armv7-p384-mul.md) - only if more than ~10% faster than fiat-crypto
-- [Imported routines start at aws-lc's alignment](/quest/m2/speed/import-entry-alignment.md) - top-level entries aligned like aws-lc, if it measures faster
