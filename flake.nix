@@ -129,6 +129,25 @@
             }/sde64";
           };
 
+          # `admin/parse-asm` calls cpp, as, and objdump by their Debian names,
+          # as s2n-bignum's Makefiles do. Each maps to the target's tools,
+          # native where the host matches, so the disassembly it reads can't
+          # change unless nixpkgs does.
+          debian-cross-tools =
+            let
+              link = arch: cross: ''
+                ln -s ${cross.stdenv.cc.cc}/bin/${cross.stdenv.cc.targetPrefix}cpp $out/bin/${arch}-linux-gnu-cpp
+                for tool in as objdump; do
+                  ln -s ${cross.stdenv.cc.bintools.bintools}/bin/${cross.stdenv.cc.targetPrefix}$tool $out/bin/${arch}-linux-gnu-$tool
+                done
+              '';
+            in
+            pkgs.runCommand "debian-cross-tools" { } ''
+              mkdir -p $out/bin
+              ${link "x86_64" pkgs.pkgsCross.gnu64}
+              ${link "aarch64" pkgs.pkgsCross.aarch64-multiplatform}
+            '';
+
           # Otherwise cargo exports the host's OpenSSL CA paths, which on
           # Ubuntu lie under the /usr the SDE sandbox replaces, and the tests
           # that load the system's roots find none. A shell hook, since `nix
@@ -232,6 +251,20 @@
               ];
 
               env.LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
+            };
+
+            # `admin/regenerate` and the regenerate workflow run in it. A
+            # separate shell because the aarch64 cross compiler, for its cpp,
+            # adds about 500 MB.
+            regenerate = pkgs.mkShell {
+              packages = [
+                (rust-stable.minimal.override { extensions = [ "rustfmt" ]; })
+                pkgs.git
+                pkgs.python3
+                # OpenSSL's perlasm.
+                pkgs.perl
+                debian-cross-tools
+              ];
             };
 
             # `just armv7` enters it to lint and test the armv7 build under
