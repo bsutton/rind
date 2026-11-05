@@ -18,5 +18,4 @@ Bun's fastest asymmetric operations run on rind, ahead of Bun writing its own.
 - [rind 0.2.0 is released](/quest/m1/release-0.2.md) - the audited API on crates.io for Bun and MoQ
 - [rind's launch blog post is published](/quest/m1/launch-post.md) - the Bun PR waits on it
 - [rind covers MoQ](/quest/m1/moq/README.md) - the primitives, CPU check, armv7 backend, and `rind-*` adapters MoQ needs, verified and released
-- [A prompt migrates a repo to rind](/quest/m1/migration-prompt.md) - a copy-paste prompt has an agent move a repo to rind and report build time, size, and benchmarks before and after
 - [The README shows how to use rind and links the details](/quest/m1/readme-restructure.md) - usage, the migration prompt, and an invitation to AI contributors, with the details in linked docs
