@@ -385,8 +385,9 @@ Only RSA signing and verification are provided.  Signing keys have 2048- to
 under `signature::verify::legacy`.  Every key refuses a public exponent that
 is even, 1, or over 33 bits, and a private key whose components disagree is
 refused when it loads, as aws-lc's `RSA_check_key` does.  RSA encryption is not provided:
-OAEP waits on a consumer, and PKCS#1 v1.5 encryption, which invites
-padding-oracle attacks, is refused.
+OAEP is [planned](quest/m2/adoption/webcrypto/rsa-oaep.md) for the WebCrypto
+adopters, and PKCS#1 v1.5 encryption, which invites padding-oracle attacks,
+is refused.
 
 RSA key generation is supported for five fixed key sizes between 2048-8192-bits.
 All generated keys have e = 0x10001 and, as in aws-lc, d reduced mod
