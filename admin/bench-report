@@ -765,6 +765,7 @@ CPU_FEATURES = {
 # bench.yml's `native` matrix defines them.
 TIERS = [
     (("x86_64-unknown-linux-gnu", False, ""), "x86_64"),
+    (("x86_64-unknown-linux-gnu", True, "no-ifma"), "no IFMA"),
     (("x86_64-unknown-linux-gnu", True, "no-adx"), "no ADX"),
     (("x86_64-unknown-linux-gnu", True, ""), "no AVX2"),
     (("x86_64-unknown-linux-gnu", True, "no-avx"), "no AVX"),
@@ -946,6 +947,14 @@ def tier_column(tier):
     if column is None:
         fail(f"nightly results name an unknown tier: {tier['target']} {tier['tier']}")
     return column
+
+
+def tier_columns(tiers):
+    """The report's tier columns, in bench.yml's order. A tier added since the
+    saved run has no column yet, rather than an empty one, which the report
+    reads as code shared with the column to its left."""
+    present = {tier_column(t) for t in tiers["tiers"]}
+    return [name for _, name in TIERS if name in present]
 
 
 def tier_row(key):
@@ -1243,7 +1252,7 @@ def tiers_svg(tiers, theme):
     of each row where rind trails most."""
     svg = Svg(theme)
     cells = tier_cells(tiers)
-    columns = [name for _, name in TIERS]
+    columns = tier_columns(tiers)
     cell = 74
     label_width = max(text_width(name, 12) for name, _ in TIER_ROWS) + 16
     top = 52
@@ -1435,7 +1444,7 @@ def build_table(cost):
 
 
 def tier_table(tiers):
-    columns = [name for _, name in TIERS]
+    columns = tier_columns(tiers)
     by_key = {}
     for t in tiers["tiers"]:
         column = dict(TIERS)[(t["target"], t["portable"], t["tier"])]
@@ -1563,7 +1572,8 @@ def report(hosts, tiers, verified, gaps):
         cpus = sorted({t["cpu"] for t in tiers["tiers"]})
         md += [
             "GitHub's runners, timed by the nightly `bench` workflow with CPU features denied as `bench.yml` "
-            "describes: x86_64 runs every feature, and each column to its right denies more (no ADX: ADX; "
+            "describes: x86_64 runs every feature, and each column to its right denies more (no IFMA: AVX-512 "
+            "IFMA; no ADX: also ADX; "
             "no AVX2: also AVX2, BMI2, SHA-NI, AVX-512, VAES, and VPCLMULQDQ; no AVX: also AVX; no AES-NI: "
             "also AES-NI, PCLMULQDQ, and SSE4.1; SSE2: also SSSE3). aarch64 runs with the crypto extension, "
             "no crypto without it, and armv7 in 32-bit mode on the same core. Each cell is rind's time over "

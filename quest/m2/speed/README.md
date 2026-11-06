@@ -3,9 +3,10 @@
 ## Goal
 
 Every algorithm rind exports, on every path it runs (x86_64's fast path and
-its no-ADX, no-AVX2, no-AES-NI, and SSE2 tiers; aarch64 with and without the
-crypto extensions; armv7), is at least as fast as the fastest permissively
-licensed source usable from Rust, or the gap is recorded with its reason.
+its no-IFMA, no-ADX, no-AVX2, no-AES-NI, and SSE2 tiers; aarch64 with and
+without the crypto extensions; armv7), is at least as fast as the fastest
+permissively licensed source usable from Rust, or the gap is recorded with its
+reason.
 BENCHMARKS.md's CPU tiers show where each stands, and its Known gaps, from
 `benchmarks/gaps.toml`, each gap's quest or reason.
 
@@ -48,8 +49,12 @@ settled; don't ask them again. The chosen option is marked ✅.
   moved from the Algorithms table, now in `ALGORITHMS.md`, which keeps only the sources) /
   the Algorithms table / nightly summary only.
 
+An RSA change's A/B on GitHub's runners reads `bench.yml`'s `no-ifma` row:
+a runner may draw a CPU with AVX-512 IFMA, whose dual RSAZ the row denies, so
+both runs time the path of CPUs without it. The plain x86_64 row times the
+dual RSAZ only when the runner has IFMA.
+
 ## Required
 
 - [Short hashes through digest::Context match the one-shot](/quest/m2/speed/digest-context-setup.md) - the context's setup and reset cost
 - [Ed25519 verification without ADX is level with RustCrypto](/quest/m2/speed/ed25519-no-adx.md) - cloud VPSes that hide ADX
-- [An x86_64 bench tier without AVX-512 IFMA](/quest/m2/speed/bench-no-ifma.md) - RSA A/Bs that measure the AVX2 path
