@@ -712,7 +712,7 @@ Each operation where another library is more than 10% faster than rind, on a hos
 | Ed25519 verify | `ovh-iad`, `ovh-sea` | 1.29× to 1.30× (RustCrypto + dalek) | These VPSes' virtual CPUs hide ADX, as CPUs older than Broadwell and Zen lack it, and there rind runs s2n-bignum's verified `_alt` routines, which RustCrypto's AVX2 backend beats. |
 | Ed25519 sign | `ovh-iad` | 1.13× (aws-lc-rs) | Noise from the VPS's other tenants: `ovh-sea`, the same virtual CPU, measured 0.92× aws-lc-rs's time, and no dedicated host shows it. The next refresh rechecks it. |
 | `p256-ecdsa-verify/*` | no ADX tier | 1.14× (aws-lc-rs) | Only CPUs older than Broadwell and Zen lack ADX, and there rind runs s2n-bignum's verified `_alt` routines. |
-| `chacha20poly1305/*/16KB`, `xchacha20poly1305/*/16KB` | no AES-NI tier | 1.17× (aws-lc-rs) | Without SSE4.1 rind runs Graviola's scalar Poly1305 rather than port BoringSSL's SSE2 `poly1305_vec.c` for CPUs older than Westmere, as README records. |
+| `chacha20poly1305/*/16KB`, `xchacha20poly1305/*/16KB` | no AES-NI tier | 1.17× (aws-lc-rs) | Without SSE4.1 rind runs Graviola's scalar Poly1305 rather than port BoringSSL's SSE2 `poly1305_vec.c` for CPUs older than Westmere, as ALGORITHMS.md records. |
 
 ## Verified code
 
