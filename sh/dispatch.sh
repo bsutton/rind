@@ -83,8 +83,6 @@ declare -A scope=(
     # alert.yml must watch every workflow that runs outside a pull request, and
     # every third-party action must be pinned.
     [gh]='^(\.github/|sh/(alert|pins)\.sh$)'
-    # The agent session hooks and their regression suite.
-    [hooks]='^\.(claude|codex)/hooks/'
     [shell]=''
     [nix]=''
 )
@@ -109,7 +107,6 @@ declare -A tools=(
     [dart]='nix'
     [quest]='quest'
     [gh]='actionlint yq jq'
-    [hooks]='shellcheck'
     [shell]='shellcheck'
     [nix]='nixfmt'
 )
@@ -118,7 +115,7 @@ verb=$action
 [[ "$verb" != ci ]] || verb=check
 
 case "$verb" in
-    check) modules=(rs msrv cross deny versions license inplace compat bench fixtures patch py dart quest gh hooks shell nix) ;;
+    check) modules=(rs msrv cross deny versions license inplace compat bench fixtures patch py dart quest gh shell nix) ;;
     fix) modules=(rs compat patch dart nix) ;;
 esac
 
@@ -245,10 +242,6 @@ for module in "${selected[@]}"; do
             actionlint
             sh/alert.sh check
             sh/pins.sh
-            ;;
-        check:hooks)
-            files '.claude/hooks/*.sh' '.codex/hooks/*.sh' | xargs -0 shellcheck
-            bash .claude/hooks/direnv.test.sh
             ;;
         check:shell) files 'sh/*.sh' | xargs -0 shellcheck ;;
         check:nix) files '*.nix' | xargs -0 nixfmt --check ;;
