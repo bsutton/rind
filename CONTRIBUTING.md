@@ -134,3 +134,8 @@ An adapter's own breaking change waits for its upstream's next breaking release;
 release-plz cannot cap a bump: a breaking change it finds in an adapter, by cargo-semver-checks or a `!` commit, makes its release PR propose the next breaking version, which that check then fails.
 Hold or revert the change instead.
 A version set by hand ahead of the published one is kept as is, and the next release PR publishes it.
+
+The release job publishes through crates.io trusted publishing, so no registry token is stored: crates.io issues a short-lived token only to `release.yml` running in the `publish` environment, which only `main` can deploy to.
+Trusted publishing cannot create a crate, so the maintainer publishes a new crate's first version by hand from `main` before the release PR that would publish it merges.
+Use a crates.io token scoped to `publish-new` for that crate name with a short expiry, never stored as a secret, and revoke it afterwards.
+Then add the crate's trusted publisher for `release.yml` and the `publish` environment, so release-plz publishes every later version.
