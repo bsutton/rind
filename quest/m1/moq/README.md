@@ -85,6 +85,5 @@ maintainer, 2026-11-05).
 
 ## Required
 
-- [A caller can hold DIT across a batch, and AES-GCM on Apple Silicon is level with aws-lc-rs while it does](/quest/m1/moq/m1-aes-gcm.md) - a public guard that skips the per-call DIT toggle, the whole remaining M1 gap
 - [AMD CPUs without VAES run their fastest AES-GCM tier](/quest/m1/moq/quic-path.md) - Vale or `by8` on Zen 2, from zshenker's rerun
 - [MoQ runs on rind](/quest/m1/moq/moq-on-rind.md) - waiting on MoQ to finish its migration
