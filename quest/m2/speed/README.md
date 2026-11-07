@@ -56,5 +56,4 @@ dual RSAZ only when the runner has IFMA.
 
 ## Required
 
-- [The Ed25519 verify benchmark times every library the same way](/quest/m2/speed/ed25519-verify-bench.md) - rind's row parses the key inside the loop
 - [HKDF-SHA256 expand is back to its earlier speed on x86_64](/quest/m2/speed/hkdf-expand-regression.md) - desktop measured 47 to 66 ns between two runs; confirm on a runner, then bisect
