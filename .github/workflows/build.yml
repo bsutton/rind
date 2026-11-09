@@ -32,12 +32,8 @@ jobs:
       - name: Build WASI with wiping
         run: cargo build -p rind --release --lib --locked --target wasm32-wasip2 --features wipe
       - name: Build WebAssembly with JavaScript randomness
-        env:
-          RUSTFLAGS: '--cfg getrandom_backend="wasm_js"'
         run: cargo build -p rind --release --lib --locked --target wasm32-unknown-unknown --features getrandom/wasm_js
       - name: Build WebAssembly with JavaScript randomness and wiping
-        env:
-          RUSTFLAGS: '--cfg getrandom_backend="wasm_js"'
         run: cargo build -p rind --release --lib --locked --target wasm32-unknown-unknown --features wipe,getrandom/wasm_js
 
   build:

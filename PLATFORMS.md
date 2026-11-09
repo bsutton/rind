@@ -63,8 +63,7 @@ first two under qemu. iOS devices' code is only built.
   rind-rustls and rind-dimpl prefer ChaCha20-Poly1305. CI tests it only on
   `x86_64`, where `--cfg rind_portable` forces it. CI also compiles the library
   for `wasm32-wasip2` and `wasm32-unknown-unknown`, with and without `wipe`.
-  The latter enables `getrandom/wasm_js` and sets
-  `--cfg getrandom_backend="wasm_js"` for JavaScript randomness; the WASI
+  The latter enables `getrandom/wasm_js` for JavaScript randomness; the WASI
   target uses its system random source. These are compile checks, not runtime
   tests. On 32-bit `x86` it needs a
   Rust newer than the 1.90 MSRV, since libcrux-platform 0.0.4 calls `__cpuid`
