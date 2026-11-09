@@ -1,4 +1,4 @@
-# Fastest at every algorithm
+# [M] Fastest at every algorithm
 
 ## Goal
 
@@ -53,7 +53,3 @@ An RSA change's A/B on GitHub's runners reads `bench.yml`'s `no-ifma` row:
 a runner may draw a CPU with AVX-512 IFMA, whose dual RSAZ the row denies, so
 both runs time the path of CPUs without it. The plain x86_64 row times the
 dual RSAZ only when the runner has IFMA.
-
-## Required
-
-- [HKDF-SHA256 expand is back to its earlier speed on x86_64](/quest/m2/speed/hkdf-expand-regression.md) - desktop measured 47 to 66 ns between two runs; confirm on a runner, then bisect
