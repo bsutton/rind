@@ -1,8 +1,9 @@
 <p align="center">
-  <img width="220" src="https://raw.githubusercontent.com/moq-dev/rind/main/admin/logo.png" alt="rind: a curled strip of spiky green graviola peel shaped like a lowercase r">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moq-dev/rind/main/admin/wordmark.svg">
+    <img width="280" src="https://raw.githubusercontent.com/moq-dev/rind/main/admin/wordmark-light.svg" alt="rind: a curled strip of green graviola peel forms the r, followed by ind">
+  </picture>
 </p>
-
-<h1 align="center">rind</h1>
 
 <p align="center">
   <strong>Cryptography slop. Fast, somewhat formally verified, and in pure Rust.</strong><br>
@@ -69,12 +70,8 @@ rind = "0.3"
 Install [rind-rustls][] at startup, then use rustls as normal:
 
 ```rust,ignore
-// Refuses a CPU missing a feature rind requires.
-rind_rustls::default_provider()?.install_default().unwrap();
+rind_rustls::default_provider().install_default().unwrap();
 ```
-
-Its [README][rind-rustls] shows a provider that links only the algorithms a
-binary names.
 
 ### With an agent
 
@@ -160,6 +157,11 @@ set it. The M1 and M2 have no such switch, so they pay the toggle's cost
 without that protection. Arm says DIT changes nothing on its current cores, so rind sets it
 only on Apple's platforms; aws-lc-rs and ring never set it.
 
+DIT is a second layer, not the constant-time guarantee: on every platform,
+rind's secret-handling code avoids branches, memory indices, and
+variable-time instructions that depend on a secret, and [TESTING.md][testing]
+lists the check each primitive gets.
+
 Turning DIT on and off costs about 45-60 ns a call on Apple's M1 and M4, a
 fifth of sealing a 1350-byte packet. A loop of small calls, such as sealing
 a batch of QUIC packets, holds a guard around the batch to pay it once:
@@ -176,11 +178,11 @@ rind-rustls and the other adapters, and does nothing off Apple's platforms.
 rind has assembly for x86_64, aarch64, and 32-bit arm, and runs portable
 Rust on any other architecture (on 32-bit x86, only with a Rust newer than its
 1.90 MSRV). CI tests Linux (glibc and musl), macOS, and Windows on
-x86_64 and aarch64, iOS in the simulator, and Android on aarch64, armv7, and
-x86_64. Any x86_64 CPU runs it,
+x86_64 and aarch64, iOS in the simulator, Android on aarch64, armv7, and
+x86_64, and Linux on big-endian s390x. Any x86_64 CPU runs it,
 little-endian aarch64 needs NEON, and every operation panics on a CPU missing a feature
 rind requires: call `rind::cpu::check()` at startup to get an error naming
-it instead, as `rind_rustls::default_provider()` does.
+it instead.
 [PLATFORMS.md][platforms] lists what each architecture runs without each
 feature.
 
@@ -262,7 +264,7 @@ from other projects keeps its source's license, which [LICENSE] lists.
 [gaps]: https://github.com/moq-dev/rind/blob/main/BENCHMARKS.md#known-gaps
 [build-cost]: https://github.com/moq-dev/rind/blob/main/BENCHMARKS.md#build-cost
 [verified]: https://github.com/moq-dev/rind/blob/main/BENCHMARKS.md#verified-code
-[gaps]: https://github.com/moq-dev/rind/blob/main/BENCHMARKS.md#known-gaps
+[testing]: https://github.com/moq-dev/rind/blob/main/TESTING.md#primitives
 [proofs]: https://github.com/moq-dev/rind/blob/main/proofs/README.md
 [algorithms]: https://github.com/moq-dev/rind/blob/main/ALGORITHMS.md
 [sources]: https://github.com/moq-dev/rind/blob/main/ALGORITHMS.md#sources
